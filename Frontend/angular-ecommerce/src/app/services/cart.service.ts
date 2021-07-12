@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 import { CartItem } from '../common/cart-item';
 
@@ -14,9 +14,37 @@ export class CartService {
         Subject is a subclass of Observable. We can use "Subject" to
         publish events in our code. The event will be sent to all of
         the subscribers.
+
+        The variable declaration prior to Section 22 (Review Cart Totals)
+        was as follows:
+        totalPrice: Subject<number> = new Subject<number>();
+        totalQuantity: Subject<number> = new Subject<number>();
+
+        When we check out, we need the cart totals. The checkout component
+        subscribes to this service (cart service) at a later point, so it
+        won't get the cart totals. This service needs to store the previous
+        events in a buffer and send it to checkout component when it later
+        subscribes for this service. To do so we either use ReplaySubject
+        or BehaviorSubject.
+
+        Subject:
+            • Does not keep a buffer of previous events
+            • Subscriber only receives new events after they have subscribed
+
+        ReplaySubject:
+            • Has a buffer of all previous events
+            • Once subscribed, subscriber receives a replay of all previous events
+        
+        BehaviorSubject:
+            • Has a buffer of the last event
+            • Once subscribed, subscriber receives the latest event sent prior to subscribing
+        
+        For our purpose BehaviorSubject is the most suitable one, because we only
+        need the final cart total and not the replay of all previous events. For
+        more details read the Section 22 PDFs or rewatch the section.
     */
-    totalPrice: Subject<number> = new Subject<number>();
-    totalQuantity: Subject<number> = new Subject<number>();
+    totalPrice: Subject<number> = new BehaviorSubject<number>(0);
+    totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
 
     constructor() { }
 
