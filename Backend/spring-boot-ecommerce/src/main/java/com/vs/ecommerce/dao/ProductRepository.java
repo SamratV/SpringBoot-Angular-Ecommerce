@@ -4,7 +4,7 @@ import com.vs.ecommerce.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Note: <BASE-PATH> is specified in the "application.properties" file.
  */
 
-@CrossOrigin("http://localhost:4200")
+// @CrossOrigin("http://localhost:4200")
+@RepositoryRestResource
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     // Example URL: http://localhost:8080/api/products/search/findByCategoryId?id=1&page=0&size=5
